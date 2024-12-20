@@ -1,0 +1,12 @@
+/* src/index.css */
+
+/* Import Tailwind's default styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+body {
+    background-color: #090909; /* Dark background color */
+}
+
