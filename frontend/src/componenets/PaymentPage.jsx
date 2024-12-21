@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import BASE_URL from '../config/config';
 
 const PaymentPage = () => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -13,7 +14,7 @@ const PaymentPage = () => {
 
     try {
       // Step 1: Create Razorpay order
-      const response = await axios.post("http://localhost:5000/api/payment/create-order", {
+      const response = await axios.post(`${BASE_URL}/api/payment/create-order`, {
         amount,
       });
 

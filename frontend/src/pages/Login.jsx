@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import BASE_URL from '../config/config';
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -31,8 +31,8 @@ const Login = () => {
 
     // Set the endpoint based on the selected role
     const endpoint = isBusiness
-      ? 'http://localhost:5000/api/businesses/login' // Business login endpoint
-      : 'http://localhost:5000/api/users/login'; // User login endpoint
+      ? `${BASE_URL}/api/businesses/login` // Business login endpoint
+      : `${BASE_URL}/api/users/login`; // User login endpoint
 
     try {
       const response = await axios.post(endpoint, formData, {

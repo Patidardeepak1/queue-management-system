@@ -34,9 +34,26 @@ function About() {
         {/* Team Section */}
         <div className="bg-gray-800 p-6 rounded-md shadow-md mt-12">
           <h2 className="text-2xl font-semibold mb-4 text-center">Meet Our Team</h2>
-          <p className="text-gray-300 text-center">
-            Our dedicated team of developers, designers, and project managers work tirelessly to deliver a top-notch solution tailored to your needs.
-          </p>
+          <div className="flex items-center justify-center space-x-6">
+            <div className="text-center">
+              {/* Founder Details */}
+              <img
+                src="..\src\assets\founder.jpg" // Replace this with your actual image URL
+                alt="Deepak Patidar"
+                className="w-24 h-24 rounded-full mx-auto mb-4"
+              />
+              <h3 className="text-lg font-semibold">Deepak Patidar</h3>
+              <p className="text-gray-400">Founder</p>
+              <a
+                href="https://github.com/Patidardeepak1" // Replace with your actual profile link
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:text-blue-600"
+              >
+                View Profile
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

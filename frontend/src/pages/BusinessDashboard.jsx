@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import BASE_URL from "../config/config";
 const BusinessDashboard = () => {
   const [businessInfo, setBusinessInfo] = useState({
     name: "",
@@ -30,7 +30,7 @@ const BusinessDashboard = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:5000/api/businesses/business",
+          `${BASE_URL}/api/businesses/business`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -59,7 +59,7 @@ const BusinessDashboard = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:5000/api/businesses/business-bookings",
+          `${BASE_URL}/api/businesses/business-bookings`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -102,7 +102,7 @@ const BusinessDashboard = () => {
   
       // Send the POST request with axios
       const response = await axios.post(
-        'http://localhost:5000/api/businesses/upload-images',
+        `${BASE_URL}/api/businesses/upload-images`,
         formData,
         {
           headers: {
@@ -141,7 +141,7 @@ const BusinessDashboard = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        "http://localhost:5000/api/businesses/update",
+        `${BASE_URL}/api/businesses/update`,
         {
           name: newBusinessName,
           businessType: newBusinessType,

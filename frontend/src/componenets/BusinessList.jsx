@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';  // Import axios
 import { Link } from 'react-router-dom';
+import BASE_URL from '../config/config';
 
 const BusinessList = () => {
   const { businessType } = useParams();  // Get the business type from the URL parameter
@@ -12,7 +13,7 @@ const BusinessList = () => {
   useEffect(() => {
     const fetchBusinesses = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/booking/type/${businessType}`);
+        const response = await axios.get(`${BASE_URL}/api/booking/type/${businessType}`);
         setBusinesses(response.data);  // Set the businesses data
         console.log(response.data);
       } catch (error) {
@@ -42,7 +43,7 @@ const BusinessList = () => {
               {/* Image Section */}
               <div className="w-full h-48 relative">
                 <img
-                  src={`http://localhost:5000/uploads/${business.imageUrl}`}
+                  src={`${BASE_URL}/uploads/${business.imageUrl}`}
                   alt={`${business.name} Slot Booking`}
                   className="w-full h-full object-cover transition-all duration-300 transform hover:scale-110"
                 />

@@ -21,9 +21,6 @@ function Navbar() {
     }
   }, []);
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -47,7 +44,7 @@ function Navbar() {
         {/* Left Side: Logo */}
         <div className="flex items-center">
           <img
-            src="https://via.placeholder.com/50" // Replace with your logo URL
+            src="..\src\assets\logo.jpg" // Replace with your logo URL
             alt="Logo"
             className="h-10 w-10 mr-2"
           />
@@ -63,16 +60,7 @@ function Navbar() {
           </button>
         </div>
 
-        {/* Middle: Search Bar */}
-        <div className="hidden md:flex items-center flex-1 justify-center max-w-xs mx-4">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            placeholder="Search..."
-            className="w-full p-2 rounded-md border border-gray-300"
-          />
-        </div>
+      
 
         {/* Right Side: Navigation Links */}
         <div className="hidden md:flex md:flex-row space-x-6">

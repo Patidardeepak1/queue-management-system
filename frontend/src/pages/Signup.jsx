@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import BASE_URL from '../config/config';
 const Signup = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -67,8 +67,8 @@ const Signup = () => {
 
     try {
       const endpoint = isBusiness
-        ? 'http://localhost:5000/api/businesses/signup' // Business signup endpoint
-        : 'http://localhost:5000/api/users/signup'; // User signup endpoint
+        ? `${BASE_URL}/api/businesses/signup` // Business signup endpoint
+        : `${BASE_URL}/api/users/signup`; // User signup endpoint
 
       const response = await axios.post(endpoint, formData, {
         headers: {

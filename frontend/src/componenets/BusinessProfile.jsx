@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import BASE_URL from '../config/config';
 
 const BusinessProfile = () => {
   const { id } = useParams(); // Get business id from URL params
@@ -22,7 +23,7 @@ const BusinessProfile = () => {
   useEffect(() => {
     const fetchBusinessDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/booking/${id}`);
+        const response = await axios.get(`${BASE_URL}/api/booking/${id}`);
         setBusiness(response.data);
       } catch (err) {
         console.error('Error fetching business details:', err);
@@ -78,7 +79,7 @@ const BusinessProfile = () => {
               business.imageUrls.map((imageUrl, index) => (
                 <div key={index} className="w-full flex-shrink-0">
                   <img
-                    src={`http://localhost:5000/uploads/${imageUrl}`}
+                    src={`${BASE_URL}/uploads/${imageUrl}`}
                     alt={`Business Image ${index + 1}`}
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />

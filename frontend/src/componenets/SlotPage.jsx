@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import BASE_URL from "../config/config";
 
 const SlotPage = () => {
   const { id } = useParams();
@@ -30,7 +31,7 @@ const SlotPage = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/booking/${id}/slots/${selectedDay}`
+          `${BASE_URL}/api/booking/${id}/slots/${selectedDay}`
         );
         setSlots(response.data);
       } catch (err) {
@@ -62,7 +63,7 @@ const SlotPage = () => {
     try {
       // Step 1: Create Razorpay order from backend  /:id/slots/:day/create-order
       const orderResponse = await axios.post(
-        `http://localhost:5000/api/booking/${id}/slots/${selectedDay}/create-order`,
+        `${BASE_URL}/api/booking/${id}/slots/${selectedDay}/create-order`,
         { day: selectedDay, time: slot },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -74,7 +75,7 @@ const SlotPage = () => {
       if (message === "No payment required for this slot") {
         // Directly book the slot without payment if no payment is required
         const bookingResponse = await axios.post(
-          `http://localhost:5000/api/booking/${id}/slots/book`,
+          `${BASE_URL}/api/booking/${id}/slots/book`,
           { day: selectedDay, time: slot },
           {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -99,7 +100,7 @@ const SlotPage = () => {
             // Step 3: Verify payment on backend
             try {
               const paymentVerification = await axios.post(
-                `http://localhost:5000/api/booking/${id}/slots/${selectedDay}/verify-payment`,
+                `${BASE_URL}/api/booking/${id}/slots/${selectedDay}/verify-payment`,
                 {
                   razorpay_payment_id: response.razorpay_payment_id,
                   razorpay_order_id: response.razorpay_order_id,

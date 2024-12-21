@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import BASE_URL from "../config/config";
 const Dashboard = () => {
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -23,7 +23,7 @@ const Dashboard = () => {
 
         // Fetch user information
         const userResponse = await axios.get(
-          "http://localhost:5000/api/users/user",
+          `${BASE_URL}/api/users/user`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -35,7 +35,7 @@ const Dashboard = () => {
 
         // Fetch booked slots
         const slotsResponse = await axios.get(
-          "http://localhost:5000/api/users/user-slots",
+          `${BASE_URL}/api/users/user-slots`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -62,7 +62,7 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        "http://localhost:5000/api/users/update",
+        `${BASE_URL}/api/users/update`,
         { name: newName, email: newEmail },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -85,7 +85,7 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        "http://localhost:5000/api/users/update-password",
+        `${BASE_URL}/api/users/update-password`,
         { password },
         { headers: { Authorization: `Bearer ${token}` } }
       );
