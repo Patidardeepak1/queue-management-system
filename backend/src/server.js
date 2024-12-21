@@ -20,7 +20,7 @@ scheduleSlotManagement();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: "https://queue-management-system-jade.vercel.app" }));
 app.use(express.json());
 
 // Serve static files from the 'uploads' folder
