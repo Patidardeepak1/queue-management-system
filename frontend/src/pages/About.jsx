@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {founder} from '../assets/founder.jpg';
 function About() {
   return (
     <div className="min-h-screen bg-black text-white px-6 py-12">
@@ -38,7 +38,7 @@ function About() {
             <div className="text-center">
               {/* Founder Details */}
               <img
-                src="..\src\assets\founder.jpg" // Replace this with your actual image URL
+                src={founder}// Replace this with your actual image URL
                 alt="Deepak Patidar"
                 className="w-24 h-24 rounded-full mx-auto mb-4"
               />
