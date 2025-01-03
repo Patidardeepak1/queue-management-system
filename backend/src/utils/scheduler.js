@@ -96,7 +96,7 @@ const getNextWeekdayDate = (dayIndex) => {
 
 // Scheduled job to run daily at 11:15 PM
 export const scheduleSlotManagement = () => {
-  schedule.scheduleJob("0 0 * * *", async () => {
+  schedule.scheduleJob("01 00 * * *", async () => {
     try {
       const today = new Date();
       const currentDayIndex = today.getDay(); // 0 for Sunday, 1 for Monday, etc.

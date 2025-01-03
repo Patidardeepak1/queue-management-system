@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import logo from "../assets/image.png";
 
 function Navbar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -44,7 +45,7 @@ function Navbar() {
         {/* Left Side: Logo */}
         <div className="flex items-center">
           <img
-            src="..\src\assets\logo.jpg" // Replace with your logo URL
+            src={logo} // Replace with your logo URL
             alt="Logo"
             className="h-10 w-10 mr-2"
           />

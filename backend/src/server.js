@@ -5,9 +5,11 @@ import connectDB from "./database/index.js"; // Import the connection file
 import userRoutes from "./routes/userRoutes.js";
 import businessRoutes from "./routes/businessRoutes.js";
 import bookingRoute from "./routes/bookingRoute.js";
+import statusRoute from "./routes/statusRoute.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import { scheduleSlotManagement } from "./utils/scheduler.js";
+import { cleanupJob } from "./utils/schedulerSlot.js";
 dotenv.config();
 connectDB(); // Connect to the database
 
@@ -17,10 +19,13 @@ const __dirname = path.dirname(__filename);
 
 // Start the scheduler
 scheduleSlotManagement();
+cleanupJob();
 
 const app = express();
 
+// app.use(cors());
 app.use(cors({ origin: "https://queue-management-system-jade.vercel.app" }));
+
 app.use(express.json());
 
 // Serve static files from the 'uploads' folder
@@ -34,6 +39,9 @@ app.use("/api/businesses", businessRoutes);
 
 //fecthing business for booking
 app.use("/api/booking", bookingRoute);
+
+// Routes
+app.use("/api", statusRoute);
 
 app.get("/", (req, res) => {
   res.send("Queue Management API is running!");
