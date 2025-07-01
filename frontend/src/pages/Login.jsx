@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BASE_URL from '../config/config';
+import OAuth from '../componenets/OAuth'; // Import the OAuth component
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -9,7 +11,7 @@ const Login = () => {
   });
 
   const [error, setError] = useState('');
-  const [isBusiness, setIsBusiness] = useState(false); // New state for role selection
+  const [isBusiness, setIsBusiness] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,17 +24,16 @@ const Login = () => {
 
   const handleRoleChange = (e) => {
     const { value } = e.target;
-    setIsBusiness(value === 'business'); // Toggle between user and business login
+    setIsBusiness(value === 'business');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear any previous error
+    setError('');
 
-    // Set the endpoint based on the selected role
     const endpoint = isBusiness
-      ? `${BASE_URL}/api/businesses/login` // Business login endpoint
-      : `${BASE_URL}/api/users/login`; // User login endpoint
+      ? `${BASE_URL}/api/businesses/login`
+      : `${BASE_URL}/api/users/login`;
 
     try {
       const response = await axios.post(endpoint, formData, {
@@ -41,20 +42,13 @@ const Login = () => {
         },
       });
 
-     
-      const { token, role  } = response.data;
+      const { token, role } = response.data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role || 'user');
 
-      // Save token and role to localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("role", role||'user');
-      // Redirect to the home page
-      navigate('/'); 
-
-      // Trigger a page refresh to ensure Navbar updates with the new login state
-      window.location.reload(); // Reload page to reflect login state
-
+      navigate('/');
+      window.location.reload();
     } catch (err) {
-      // Set error message from the response or use a fallback
       setError(err.response?.data?.message || 'Failed to login');
     }
   };
@@ -93,7 +87,7 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Common Fields for Both User and Business */}
+        {/* Email */}
         <div className="mb-6">
           <label htmlFor="email" className="block text-sm font-medium text-gray-300">
             Email
@@ -109,6 +103,7 @@ const Login = () => {
           />
         </div>
 
+        {/* Password */}
         <div className="mb-6">
           <label htmlFor="password" className="block text-sm font-medium text-gray-300">
             Password
@@ -124,15 +119,30 @@ const Login = () => {
           />
         </div>
 
-        <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700">
+        {/* Submit Button */}
+        <button type="submit" className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition duration-200">
           Login
         </button>
 
+        {/* Error Message */}
         {error && (
           <div className="mt-4 text-center text-red-500">
             <p>{error}</p>
           </div>
         )}
+
+       {/* Google Sign-in for User only */}
+        {!isBusiness && (
+          <>
+            <div className="flex items-center my-6">
+              <div className="flex-grow h-px bg-gray-500"></div>
+              <span className="mx-4 text-gray-400">or</span>
+              <div className="flex-grow h-px bg-gray-500"></div>
+            </div>
+            <OAuth />
+          </>
+        )}
+
       </form>
     </div>
   );

@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BASE_URL from '../config/config';
+import OAuth from '../componenets/OAuth'; 
+
 const Signup = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    businessType: '', // Updated field name
+    businessType: '',
     businessEmail: '',
     openTime: '',
     closeTime: '',
@@ -25,7 +27,7 @@ const Signup = () => {
 
   const [isRegistered, setIsRegistered] = useState(false);
   const [error, setError] = useState('');
-  const [isBusiness, setIsBusiness] = useState(false); // To toggle between user and business registration
+  const [isBusiness, setIsBusiness] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -63,12 +65,12 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear any previous errors
+    setError('');
 
     try {
       const endpoint = isBusiness
-        ? `${BASE_URL}/api/businesses/signup` // Business signup endpoint
-        : `${BASE_URL}/api/users/signup`; // User signup endpoint
+        ? `${BASE_URL}/api/businesses/signup`
+        : `${BASE_URL}/api/users/signup`;
 
       const response = await axios.post(endpoint, formData, {
         headers: {
@@ -76,18 +78,14 @@ const Signup = () => {
         },
       });
 
-      console.log('Registration successful:', response.data);
-      setIsRegistered(true); // Show success message
-
-      // Redirect to the home page after successful registration
-      navigate('/'); // You can change this to redirect to any route you like
+      setIsRegistered(true);
+      navigate('/');
     } catch (err) {
-      console.error('Signup error:', err.response?.data?.message || err.message);
-      setError(err.response?.data?.message || 'Failed to register'); // Show error message
+      const message = err.response?.data?.message || 'Failed to register';
+      setError(message);
 
-      // Check if the error message is about existing user
-      if (err.response?.data?.message === 'User already exists') {
-        navigate('/login'); // Adjust the login route based on your routing
+      if (message === 'User already exists') {
+        navigate('/login');
       }
     }
   };
@@ -129,48 +127,42 @@ const Signup = () => {
           </div>
         </div>
 
-        {/* Common Fields for Both User and Business */}
+        {/* Common Fields */}
         <div className="mb-6">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-300">
-            Name
-          </label>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-300">Name</label>
           <input
             type="text"
             id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="mt-2 block w-full p-3 border border-gray-600 rounded-md shadow-sm bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all"
+            className="mt-2 block w-full p-3 bg-gray-700 border border-gray-600 rounded-md"
             placeholder="Enter your name"
           />
         </div>
 
         <div className="mb-6">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-            Email
-          </label>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email</label>
           <input
             type="email"
             id="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="mt-2 block w-full p-3 border border-gray-600 rounded-md shadow-sm bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all"
+            className="mt-2 block w-full p-3 bg-gray-700 border border-gray-600 rounded-md"
             placeholder="Enter your email"
           />
         </div>
 
         <div className="mb-6">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-300">
-            Password
-          </label>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</label>
           <input
             type="password"
             id="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="mt-2 block w-full p-3 border border-gray-600 rounded-md shadow-sm bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all"
+            className="mt-2 block w-full p-3 bg-gray-700 border border-gray-600 rounded-md"
             placeholder="Enter your password"
           />
         </div>
@@ -179,32 +171,28 @@ const Signup = () => {
         {isBusiness && (
           <>
             <div className="mb-6">
-              <label htmlFor="businessType" className="block text-sm font-medium text-gray-300">
-                Business Type
-              </label>
+              <label htmlFor="businessType" className="block text-sm font-medium text-gray-300">Business Type</label>
               <input
                 type="text"
                 id="businessType"
                 name="businessType"
                 value={formData.businessType}
                 onChange={handleChange}
-                className="mt-2 block w-full p-3 border border-gray-600 rounded-md shadow-sm bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all"
-                placeholder="Enter your business type"
+                className="mt-2 block w-full p-3 bg-gray-700 border border-gray-600 rounded-md"
+                placeholder="Enter business type"
               />
             </div>
 
             <div className="mb-6">
-              <label htmlFor="location" className="block text-sm font-medium text-gray-300">
-                Location
-              </label>
+              <label htmlFor="location" className="block text-sm font-medium text-gray-300">Location</label>
               <input
                 type="text"
                 id="location"
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                className="mt-2 block w-full p-3 border border-gray-600 rounded-md shadow-sm bg-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all"
-                placeholder="Enter your business location"
+                className="mt-2 block w-full p-3 bg-gray-700 border border-gray-600 rounded-md"
+                placeholder="Enter location"
               />
             </div>
           </>
@@ -212,7 +200,7 @@ const Signup = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 focus:outline-none transition duration-200 ease-in-out"
+          className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition duration-200"
         >
           Sign Up
         </button>
@@ -228,7 +216,7 @@ const Signup = () => {
             <p className="text-green-500 mb-2">Registration successful!</p>
             <button
               onClick={() => navigate('/')}
-              className="w-full bg-gray-600 text-white p-3 rounded-md hover:bg-gray-700 focus:outline-none transition duration-200"
+              className="w-full bg-gray-600 text-white p-3 rounded-md hover:bg-gray-700"
             >
               Go to Home
             </button>

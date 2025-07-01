@@ -65,6 +65,61 @@ export const loginUser = async (req, res) => {
   }
 };
 
+export const googleAuth = async (req, res) => {
+  try {
+    const { email, name } = req.body;
+
+    // Check if user already exists
+    let user = await User.findOne({ email });
+
+    if (user) {
+      // Existing user: generate token and respond
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "10h",
+      });
+
+      const { password, ...userData } = user._doc;
+
+      return res
+        .status(200)
+        .json({ message: "Login successful", user: userData, token });
+    }
+
+    // New user creation
+    const randomPassword =
+      Math.random().toString(36).slice(-8) +
+      Math.random().toString(36).slice(-8);
+    const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+    const generatedUsername =
+      name.split(" ").join("").toLowerCase() +
+      Math.random().toString(36).slice(-4);
+
+    const newUser = await User.create({
+      name,
+      username: generatedUsername,
+      email,
+      password: hashedPassword,
+      role: "user",
+    });
+
+    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "10h",
+    });
+
+    const { password, ...userData } = newUser._doc;
+
+    res.status(201).json({
+      message: "Account created and logged in",
+      user: userData,
+      token,
+    });
+  } catch (error) {
+    console.error("Google OAuth Error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 //get user
 
 // Get User Details

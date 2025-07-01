@@ -38,16 +38,16 @@ function App() {
           <Route path="/business/:id/slots" element={<SlotPage />} />
           <Route path="/payment" element={<PaymentPage/>}/>
           <Route element={<PrivateRoute />}>
-  {/* These paths are only accessed after redirect by PrivateRoute */}
-  <Route 
-    path="/dashboard" 
-    element={localStorage.getItem('role') === 'user' ? <Dashboard /> : <Navigate to="/business-dashboard" />} 
-  />
-  <Route 
-    path="/business-dashboard" 
-    element={localStorage.getItem('role') === 'business' ? <BusinessDashboard /> : <Navigate to="/dashboard" />} 
-  />
-</Route>
+          {/* These paths are only accessed after redirect by PrivateRoute */}
+          <Route 
+            path="/dashboard" 
+            element={localStorage.getItem('role') === 'user' ? <Dashboard /> : <Navigate to="/business-dashboard" />} 
+          />
+          <Route 
+            path="/business-dashboard" 
+            element={localStorage.getItem('role') === 'business' ? <BusinessDashboard /> : <Navigate to="/dashboard" />} 
+          />
+        </Route>
         </Routes>
         <Footer/>
       </div>

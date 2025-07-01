@@ -6,6 +6,7 @@ import {
   updatePassword,
   updateUserInfo,
   getUserSlots,
+  googleAuth,
 } from "../controller/userController.js";
 import {
   validateSignup,
@@ -31,5 +32,8 @@ router.put("/update-password", authenticateUser, updatePassword);
 
 //fectching slots of particular user
 router.get("/user-slots", authenticateUser, getUserSlots);
+
+//google auth
+router.post("/auth/google", googleAuth);
 
 export default router;

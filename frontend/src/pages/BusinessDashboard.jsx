@@ -113,7 +113,7 @@ const BusinessDashboard = () => {
       );
   
       // Handle the successful response
-      console.log('Images uploaded:', response.data.imageUrls);
+     // console.log('Images uploaded:', response.data.imageUrls);
       // Update the UI (e.g., display uploaded image URLs or a success message)
     } catch (error) {
       // Handle errors gracefully
@@ -124,7 +124,7 @@ const BusinessDashboard = () => {
         // Other errors (e.g., network issues)
         setUploadError('Error uploading images');
       }
-      console.error('Image upload error:', error);
+     // console.error('Image upload error:', error);
     }
   
     setIsUploading(false);

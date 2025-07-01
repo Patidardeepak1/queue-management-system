@@ -63,23 +63,23 @@ import Business from "../models/businessModel.js";
 // import Business from "../models/businessModel.js";
 
 // Helper to generate slots for a specific day
-const generateSlotsForDay = (dayConfig, date, slotDuration) => {
-  if (!dayConfig.open) return []; // Skip closed days
+const generateSlotsForDay = (dayConfig, dayIndex, date, slotDuration) => {
+  if (!dayConfig.open) return [];
 
   const slots = [];
-  const [startHour, startMinute] = dayConfig.openTime.split(":").map(Number);
-  const [endHour, endMinute] = dayConfig.closeTime.split(":").map(Number);
-
   const startTime = new Date(`${date}T${dayConfig.openTime}:00`);
   const endTime = new Date(`${date}T${dayConfig.closeTime}:00`);
 
   let currentTime = new Date(startTime);
 
   while (currentTime < endTime) {
-    const timeString = currentTime.toTimeString().split(" ")[0].substring(0, 5); // Format HH:mm
-    slots.push({ day: dayConfig.day, date, time: timeString, status: true });
-
-    // Increment time by slotDuration
+    const timeString = currentTime.toTimeString().substring(0, 5);
+    slots.push({
+      day: dayIndex, // fixed here
+      date,
+      time: timeString,
+      status: true,
+    });
     currentTime.setMinutes(currentTime.getMinutes() + slotDuration);
   }
 
@@ -91,12 +91,12 @@ const getNextWeekdayDate = (dayIndex) => {
   const today = new Date();
   const nextDay = new Date();
   nextDay.setDate(today.getDate() + ((7 - today.getDay() + dayIndex) % 7 || 7));
-  return nextDay.toISOString().split("T")[0]; // Format "YYYY-MM-DD"
+  return nextDay.toISOString().split("T")[0]; // returns 'YYYY-MM-DD'
 };
 
 // Scheduled job to run daily at 11:15 PM
 export const scheduleSlotManagement = () => {
-  schedule.scheduleJob("01 00 * * *", async () => {
+  schedule.scheduleJob("00 00 * * *", async () => {
     try {
       const today = new Date();
       const currentDayIndex = today.getDay(); // 0 for Sunday, 1 for Monday, etc.
@@ -128,6 +128,7 @@ export const scheduleSlotManagement = () => {
         // Generate slots for the next week
         const newSlots = generateSlotsForDay(
           todayConfig,
+          currentDayIndex,
           nextWeekDateString,
           business.slotDuration
         );
