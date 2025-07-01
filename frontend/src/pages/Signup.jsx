@@ -222,6 +222,18 @@ const Signup = () => {
             </button>
           </div>
         )}
+
+        {/* OR separator */}
+        {!isBusiness && (
+          <>
+            <div className="flex items-center my-6">
+              <div className="flex-grow h-px bg-gray-500"></div>
+              <span className="mx-4 text-gray-400">or</span>
+              <div className="flex-grow h-px bg-gray-500"></div>
+            </div>
+            <OAuth />
+          </>
+        )}
       </form>
     </div>
   );
